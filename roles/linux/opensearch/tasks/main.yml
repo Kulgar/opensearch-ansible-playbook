@@ -53,7 +53,7 @@
   ansible.builtin.uri:
     url: "https://{{ inventory_hostname }}:9200/_cluster/health?pretty"
     user: admin
-    password: "{{ admin_password }}"
+    password: "{{ opensearch_admin_password }}"
     validate_certs: false
   register: os_status
 
@@ -66,7 +66,7 @@
   ansible.builtin.uri:
     url: "https://{{ inventory_hostname }}:9200/_cat/nodes?v"
     user: admin
-    password: "{{ admin_password }}"
+    password: "{{ opensearch_admin_password }}"
     validate_certs: false
   register: os_roles
   run_once: true

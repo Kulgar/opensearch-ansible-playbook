@@ -12,7 +12,7 @@ defaults:
       pkPassword: none
       # Set this to true in order to generate config and certificates for
       # the HTTP interface of nodes
-      httpsEnabled: true
+      httpsEnabled: false
       reuseTransportCertificatesForHttp: false
       verifyHostnames: false
       resolveHostnames: false

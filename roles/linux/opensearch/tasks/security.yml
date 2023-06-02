@@ -224,7 +224,7 @@
 
 - name: Security Plugin configuration | Set the Admin user password
   ansible.builtin.shell: >
-    sed -i '/hash: / s,{{ admin_password }},'$(bash {{ os_sec_plugin_tools_path }}/hash.sh -p {{ admin_password }} | tail -1)','
+    sed -i '/hash: / s,{{ opensearch_admin_password }},'$(bash {{ os_sec_plugin_tools_path }}/hash.sh -p {{ opensearch_admin_password }} | tail -1)','
     {{ os_sec_plugin_conf_path }}/internal_users.yml
   environment:
     JAVA_HOME: "{{ os_home }}/jdk"
@@ -233,7 +233,7 @@
 
 - name: Security Plugin configuration | Set the kibanaserver user pasword
   ansible.builtin.shell: >
-    sed -i '/hash: / s,{{ kibanaserver_password }},'$(bash {{ os_sec_plugin_tools_path }}/hash.sh -p {{ kibanaserver_password }} | tail -1)','
+    sed -i '/hash: / s,{{ opensearch_kibanaserver_password }},'$(bash {{ os_sec_plugin_tools_path }}/hash.sh -p {{ opensearch_kibanaserver_password }} | tail -1)','
     {{ os_sec_plugin_conf_path }}/internal_users.yml
   environment:
     JAVA_HOME: "{{ os_home }}/jdk"
@@ -270,10 +270,10 @@
         custom_users_filtered: '{{ custom_users | dict2items | rejectattr("key", "equalto", "_meta") | list | items2dict }}'
 
     # Hashed passwords are written for all users found in the previous task. Passwords are searched in variables
-    # set by the user when starting the role (admin_password, kibanaserver_password, etc.).
+    # set by the user when starting the role (opensearch_admin_password, opensearch_kibanaserver_password, etc.).
     - name: Security Plugin configuration | Set passwords for all users from custom config
       ansible.builtin.shell: >
-        sed -i '/hash: / s,{{ lookup('vars', item + '_password') }},'$(bash {{ os_sec_plugin_tools_path }}/hash.sh -p {{ lookup('vars', item + '_password') }} | tail -1)','
+        sed -i '/hash: / s,{{ lookup('vars', 'opensearch_' + item + '_password') }},'$(bash {{ os_sec_plugin_tools_path }}/hash.sh -p {{ lookup('vars',  'opensearch_' + item + '_password') }} | tail -1)','
         {{ os_sec_plugin_conf_path }}/internal_users.yml
       environment:
         JAVA_HOME: "{{ os_home }}/jdk"
@@ -293,7 +293,7 @@
   environment:
     JAVA_HOME: "{{ os_home }}/jdk"
   run_once: true
-  when: configuration.changed and copy_custom_security_configs
+  when: configuration.changed or copy_custom_security_configs
 
 - name: Security Plugin configuration | Initialize the opensearch security index in opensearch with default configs
   ansible.builtin.shell: >

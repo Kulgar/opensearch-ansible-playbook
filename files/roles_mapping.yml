@@ -11,10 +11,10 @@ kibana_server:
   users:
   - "kibanaserver"
 
-logstash:
+graylog:
   reserved: true
   users:
-  - "logstash"
+  - "graylog"
 
 # Define your roles mapping here
 all_access:
@@ -54,6 +54,3 @@ indexes_web_search_full_access:
   - "opensearch_index_read_all"
   - "opensearch_index_read_web"
   description: "Maps users to indexes_web_search_full_access"
-
-
-

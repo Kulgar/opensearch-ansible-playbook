@@ -2,12 +2,14 @@
 
 - name: Opensearch installation & configuration
   hosts: os-cluster
+  become: true
   gather_facts: true
   roles:
     - { role: linux/opensearch }
 
 - name: Opensearch dashboards installation & configuration
   hosts: dashboards
+  become: true
   gather_facts: true
   roles:
     - { role: linux/dashboards }

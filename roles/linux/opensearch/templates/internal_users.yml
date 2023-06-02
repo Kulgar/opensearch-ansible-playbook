@@ -9,13 +9,18 @@ _meta:
 # Define your internal users here
 
 admin:
-  hash: "{{ admin_password }}"
+  hash: "{{ opensearch_admin_password }}"
   reserved: true
   backend_roles:
   - "admin"
   description: "admin user"
 
 kibanaserver:
-  hash: "{{ kibanaserver_password }}"
+  hash: "{{ opensearch_kibanaserver_password }}"
   reserved: true
   description: "kibanaserver user"
+
+graylog:
+  hash: "{{ opensearch_graylog_password }}"
+  reserved: true
+  description: "graylog user"
